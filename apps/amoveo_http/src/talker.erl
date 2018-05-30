@@ -42,14 +42,12 @@ talk_helper(Msg, Peer, N, TimeOut) ->
     Msg = packer:unpack(PM),
     case httpc:request(post, {Peer, [], "application/octet-stream", iolist_to_binary(PM)}, [{timeout, TimeOut}], []) of
         {ok, {{_, 500, _}, _Headers, []}} ->
-	    io:fwrite("server crashed.\n"),
-	    io:fwrite(element(1, Msg)),
-	    io:fwrite(" \n"),
+            io:fwrite("talker: ret 500 for cmd '~p' from ~p\n", [element(1, Msg), Peer]),
 	    bad_peer;
             %talk_helper(Msg, Peer, 0, TimeOut);
         {ok, {Status, _Headers, []}} ->
-            io:fwrite("talk_helper weird response \n"),
-	    io:fwrite(packer:pack(Status)),
+            io:fwrite("talker: weird response from ~p, status ~p\n", [Peer, Status]),
+            io:fwrite(packer:pack(Status)),
             talk_helper(Msg, Peer, N - 1, TimeOut);
         {ok, {_, _, R}} ->
 	    %io:fwrite("talker peer is "),
@@ -68,7 +66,7 @@ talk_helper(Msg, Peer, N, TimeOut) ->
 		    packer:unpack(R)
 	    end;
         {error, socket_closed_remotely} ->
-            io:fwrite("talk_helper socket closed remotely \n"),
+            io:fwrite("talker: socket closed remotely ~p\n", [Peer]),
             talk_helper(Msg, Peer, N - 1, TimeOut);
         {error, timeout} ->
             io:fwrite("talk_helper timeout \n"),
@@ -76,15 +74,15 @@ talk_helper(Msg, Peer, N, TimeOut) ->
 	    io:fwrite("\n"),
             talk_helper(Msg, Peer, N - 1, TimeOut);
         {error, failed_connect} ->
-            io:fwrite("talk_helper failed_connect 0 \n"),
+            io:fwrite("talker: failed_connect 0 ~p\n", [Peer]),
 	    bad_peer;
             %talk_helper(Msg, Peer, N - 1, TimeOut);
         {error, {failed_connect, _}} ->
-            io:fwrite("talk_helper failed_connect 1 \n"),
+            io:fwrite("talker: failed_connect 1 ~p\n", [Peer]),
 	    %io:fwrite(PM),
 	    bad_peer;
             %talk_helper(Msg, Peer, N - 1, TimeOut);
-        X -> io:fwrite("talk helper unexpected error"),
-            io:fwrite(X),
+        X ->
+            io:fwrite("talker: unexpected error '~p' ~p\n", [X, Peer]),
             error
     end.

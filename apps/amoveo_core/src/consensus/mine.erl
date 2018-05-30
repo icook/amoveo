@@ -6,7 +6,7 @@
 init(ok) -> {ok, stop}.
 start_link() -> gen_server:start_link({local, ?MODULE}, ?MODULE, ok, []).
 code_change(_OldVsn, State, _Extra) -> {ok, State}.
-terminate(_, _) -> io:format("died!"), ok.
+terminate(_, _) -> io:format("mine: died!\n"), ok.
 handle_info(_, X) -> {noreply, X}.
 handle_cast(mine, go) ->
     case application:get_env(amoveo_core, test_mode, false) of

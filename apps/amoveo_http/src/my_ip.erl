@@ -5,7 +5,7 @@
 init(ok) -> {ok, empty}.
 start_link() -> gen_server:start_link({local, ?MODULE}, ?MODULE, ok, []).
 code_change(_OldVsn, State, _Extra) -> {ok, State}.
-terminate(_, _) -> io:format("died!"), ok.
+terminate(_, _) -> io:format("my_ip: died!\n"), ok.
 handle_info(_, X) -> {noreply, X}.
 handle_cast(_, X) -> {noreply, X}.
 handle_call(get, _From, X) -> 
@@ -23,8 +23,7 @@ my_ip([]) -> empty;
 my_ip([[A, B]|T]) ->
     my_ip([{A, B}|T]);
 my_ip([P|T]) ->
-    io:fwrite(packer:pack(P)),
-    io:fwrite("\n"),
+    io:fwrite("my_ip: is ~p\n", [P]),
     case talker:talk_timeout({f}, P, 4000) of
 	{ok, MyIP} ->
 	    case MyIP of 

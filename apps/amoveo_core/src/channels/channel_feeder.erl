@@ -17,7 +17,7 @@ new_cd(Me, Them, SSMe, SSThem, CID, Expiration) ->
 init(ok) -> {ok, []}.
 start_link() -> gen_server:start_link({local, ?MODULE}, ?MODULE, ok, []).
 code_change(_OldVsn, State, _Extra) -> {ok, State}.
-terminate(_, _) -> io:format("died!"), ok.
+terminate(_, _) -> io:format("channel_feeder: died!\n"), ok.
 handle_info(_, X) -> {noreply, X}.
 handle_cast(garbage, X) ->
     %check if any of the channels haven't existed in the last free_constants:fork_tolerance() blocks. If it hasn't, then delete it.

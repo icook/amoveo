@@ -15,7 +15,7 @@ start_link() -> gen_server:start_link({local, ?MODULE}, ?MODULE, ok, []).
 code_change(_OldVsn, State, _Extra) -> {ok, State}.
 terminate(_, K) -> 
     db:save(?LOC, K),
-    io:format("died!"), ok.
+    io:format("arbitrage: died!\n"), ok.
 handle_info(_, X) -> {noreply, X}.
 handle_cast({write, SecretHash, L}, X) -> 
     Y = case dict:find(SecretHash, X) of

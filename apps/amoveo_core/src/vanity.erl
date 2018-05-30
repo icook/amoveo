@@ -8,7 +8,7 @@
 init(ok) -> {ok, []}.
 start_link() -> gen_server:start_link({local, ?MODULE}, ?MODULE, ok, []).
 code_change(_OldVsn, State, _Extra) -> {ok, State}.
-terminate(_, _) -> io:format("died!"), ok.
+terminate(_, _) -> io:format("vanity: died!\n"), ok.
 handle_info(_, X) -> {noreply, X}.
 handle_cast({store, X}, _) -> {noreply, X};
 handle_cast(stop, _) -> {noreply, stop};

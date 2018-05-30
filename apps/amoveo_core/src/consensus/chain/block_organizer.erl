@@ -6,7 +6,7 @@
 init(ok) -> {ok, []}.
 start_link() -> gen_server:start_link({local, ?MODULE}, ?MODULE, ok, []).
 code_change(_OldVsn, State, _Extra) -> {ok, State}.
-terminate(_, _) -> io:format("died!"), ok.
+terminate(_, _) -> io:format("block_organizer: died!\n"), ok.
 handle_info(_, X) -> {noreply, X}.
 handle_cast(check, BS) -> 
     BS2 = helper(BS),
@@ -55,8 +55,11 @@ check() -> gen_server:cast(?MODULE, check).
 add([]) -> 0;
 add(Blocks) when not is_list(Blocks) -> 0;
 add(Blocks) ->
-    io:fwrite("block organizer add\n"),
     true = is_list(Blocks),
+    io:fwrite("block_organizer: add ~p blocks. ~p-~p\n",
+          [lists:flatlength(Blocks),
+           (hd(Blocks))#block.height,
+           (lists:last(Blocks))#block.height]),
     {Blocks2, AddReturn} = add1(Blocks, []),
     case Blocks2 of
 	[] -> ok;

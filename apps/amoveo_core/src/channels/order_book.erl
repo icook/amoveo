@@ -42,7 +42,7 @@ start_link() -> gen_server:start_link({local, ?MODULE}, ?MODULE, ok, []).
 code_change(_OldVsn, State, _Extra) -> {ok, State}.
 terminate(_, X) -> 
     db:save(?LOC, X),
-    io:format("order book died!\n"), 
+    io:format("order_book: died!\n"), 
     ok.
 handle_info(_, X) -> {noreply, X}.
 handle_cast({new_market, OID, Expires, Period}, X) ->

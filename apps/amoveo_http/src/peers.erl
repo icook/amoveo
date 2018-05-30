@@ -35,7 +35,7 @@ init(ok) ->
     {ok, #state{peers = dict:new()}}.
 start_link() -> gen_server:start_link({local, ?MODULE}, ?MODULE, ok, []).
 code_change(_OldVsn, S, _Extra) -> {ok, S}.
-terminate(_, _) -> io:format("died!"), ok.
+terminate(_, _) -> io:format("peers: died!\n"), ok.
 handle_info(_Info, State) ->
     {noreply, State}.
 
@@ -150,8 +150,3 @@ my_ip([P|T]) ->
 	    %io:fwrite(packer:pack(X)),
 	    %io:fwrite("\n")
     end.
-	     
-
-
-
-    

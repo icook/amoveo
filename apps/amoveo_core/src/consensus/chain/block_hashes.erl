@@ -17,7 +17,7 @@ start_link() -> gen_server:start_link({local, ?MODULE}, ?MODULE, ok, []).
 code_change(_OldVsn, State, _Extra) -> {ok, State}.
 terminate(_, X) -> 
     db:save(?LOC, X),
-    io:format("block_hashes died!"), ok.
+    io:format("block_hashes died!\n"), ok.
 handle_info(_, X) -> {noreply, X}.
 handle_cast(_, X) -> {noreply, X}.
 handle_call({add, H}, _From, X) ->

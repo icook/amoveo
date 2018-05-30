@@ -59,7 +59,7 @@ handle_info(_Info, State) ->
     {noreply, State}.
 terminate(_Reason, X) ->
     db:save(?LOC, X),
-    io:fwrite("headers died!\n"),
+    io:fwrite("headers: died!\n"),
     ok.
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
