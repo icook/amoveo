@@ -9,7 +9,13 @@
 	 save/1,    %% returns after saving
 	 do_save/1]). %% run without gen_server
 -export([start_link/0,init/1,handle_call/3,handle_cast/2,handle_info/2,terminate/2,code_change/3]).
-init(ok) -> {ok, now()}.
+init(ok) ->
+    % We need to cleanly exit to avoid problems with race conditions in block
+    % processing. IF we add a hash to the hash database before it's written to
+    % disk we'll have a broken sync database since it'll ignore adding blocks
+    % that are needed
+    process_flag(trap_exit, true),
+    {ok, now()}.
 start_link() -> gen_server:start_link({local, ?MODULE}, ?MODULE, ok, []).
 code_change(_OldVsn, State, _Extra) -> {ok, State}.
 terminate(_, _) -> 
