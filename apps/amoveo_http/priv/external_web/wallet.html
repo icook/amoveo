@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Amoveo Light Wallet</title>
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js" integrity="sha256-lrZTgsdM1iVdRigETFOU8u8/BmLX1ysQ8bzrULbuVFU=" crossorigin="anonymous"></script>
   </head>
   <body>
+    <div id="server"></div>
     <div id="translations"></div>
   </body>
   <script charset="utf-8" type="text/javascript" src="human_language.js" ></script>
@@ -21,7 +28,7 @@
   <script type="text/javascript" src="crypto.js" ></script>
   <script type="text/javascript" src="merkle_proofs.js" ></script>
   <script type="text/javascript" src="encryption_library.js" ></script>
-  <script type="text/javascript" src="server.js" ></script>
+  <script type="text/babel" src="server_react.js" ></script>
   <script type="text/javascript" src="headers.js" ></script>
 <!--  <script type="text/javascript" src="miner.js" ></script> -->
   <script type="text/javascript" src="keys.js" ></script>
